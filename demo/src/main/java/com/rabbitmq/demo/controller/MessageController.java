@@ -19,7 +19,13 @@ public class MessageController {
 
     @GetMapping("/publish")
     public ResponseEntity<String> sendMessage(@RequestParam("message") String message){
-        producer.sendMessage(message);
-        return ResponseEntity.ok("Message sent to Rabbit MQ...");
+        try {
+            producer.sendMessage(message);
+            return ResponseEntity.ok("Message sent to Rabbit MQ...");
+        } catch (Exception e) {
+           return ResponseEntity
+                   .status(500)
+                   .body("Failed to send message: ");
+        }
     }
 }

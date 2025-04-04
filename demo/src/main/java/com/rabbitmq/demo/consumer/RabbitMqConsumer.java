@@ -11,7 +11,11 @@ public class RabbitMqConsumer {
     private static final Logger LOGGER = LoggerFactory.getLogger(RabbitMqConsumer.class);
 
     @RabbitListener(queues = {"${rabbitmq.queue.name}"})
-    public void consume(String message){
-        LOGGER.info("Received message-> {}",message);
+    public void consume(String message) {
+        try {
+            LOGGER.info("Received message-> {}", message);
+        } catch (Exception e) {
+            LOGGER.error("Error Receiving message", e);
+        }
     }
 }
